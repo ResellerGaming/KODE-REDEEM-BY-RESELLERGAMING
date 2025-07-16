@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kode Redeem By Reseller Gaming</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Kode Redeem By Reseller Gaming</h1>
+    <input type="text" id="kode" placeholder="Masukkan kode redeem..." />
+    <button onclick="redeem()">Tukar Kode</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    async function redeem() {
+      const kode = document.getElementById("kode").value;
+      const res = await fetch("/redeem", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: kode })
+      });
+      const data = await res.json();
+      const result = document.getElementById("result");
+      if (data.success) {
+        result.innerHTML = '✅ <a href="' + data.link + '" target="_blank">Klik di sini untuk download hadiahmu</a>';
+      } else {
+        result.textContent = '❌ ' + data.msg;
+      }
+    }
+  </script>
+</body>
+</html>
